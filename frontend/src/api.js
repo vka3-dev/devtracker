@@ -1,0 +1,3 @@
+const API_BASE_URL=import.meta.env.VITE_API_BASE_URL||"http://localhost:8080";
+async function request(path,options={}){const response=await fetch(`${API_BASE_URL}${path}`,{headers:{"Content-Type":"application/json",...(options.headers||{})},...options});const type=response.headers.get("content-type")||"";const data=type.includes("application/json")?await response.json():await response.text();if(!response.ok)throw new Error(typeof data==="object"&&data?.message?data.message:`Request failed with status ${response.status}`);return data;}
+export const api={getUsers:()=>request("/users"),getProjects:()=>request("/projects"),getTasks:()=>request("/tasks")};
